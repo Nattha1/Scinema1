@@ -22,4 +22,4 @@ jobs:
       run: sudo apt-get install -y php8.0-mysql
 
     - name: Run PHP script
-      run: php convert_database_to_json.php
+      run: php generate_json_data.php
