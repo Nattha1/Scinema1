@@ -9,18 +9,47 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      docker:
+        image: docker:19.03.12
+        options: --privileged
+        ports:
+          - 8080:80
+        env:
+          DOCKER_DRIVER: overlay2
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "7.4" # เลือกเวอร์ชันของ PHP ที่คุณต้องการติดตั้ง
-          extensions: mbstring, zip # สามารถเพิ่มส่วนขยายเพิ่มเติมได้ตามต้องการ
+      - name: Start Apache and PHP Docker container
+        run: |
+          docker run -d -p 8080:80 --name php-apache-container -v $PWD:/var/www/html php:7.4-apache
 
-      - name: Install PHP CodeSniffer
-        run: composer global require "squizlabs/php_codesniffer=*"
+      - name: Wait for Apache to start
+        run: sleep 10
 
-      - name: Check PHP syntax
-        run: php -l .
+      - name: Copy PHP files to container
+        run: docker cp . php-apache-container:/var/www/html/
+
+      - name: Install Composer
+        run: |
+          docker exec php-apache-container sh -c "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer"
+
+      - name: Install zip extension and unzip
+        run: |
+          docker exec php-apache-container sh -c "apt-get update && apt-get install -y zip unzip"
+
+      - name: Install mysqli extension
+        run: |
+          docker exec php-apache-container docker-php-ext-install mysqli
+
+      - name: Install dependencies
+        run: |
+          docker exec php-apache-container composer install --working-dir=/var/www/html
+
+      - name: Generate JSON data
+        run: docker exec php-apache-container php /var/www/html/generate_json_data.php
+
+      - name: Check homepage.php
+        run: curl -v http://localhost:8080/homepage.php
