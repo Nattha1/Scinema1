@@ -1,12 +1,11 @@
 {
   "name": "scinema",
   "version": "1.0.0",
-  "description": "build": "webpack",
+  "description": "Your project description",
   "scripts": {
-    "build": "build": "webpack"
+    "build": "webpack"
   },
   "dependencies": {
     "express": "^4.17.1"
-    // และแพ็คเกจอื่น ๆ ที่คุณใช้ในโปรเจกท์ของคุณ
   }
 }
