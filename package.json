@@ -1,0 +1,11 @@
+{
+  "name": "scinema",
+  "version": "1.0.0",
+  "description": "Your project description",
+  "scripts": {
+    "build": "your_build_command_here"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
