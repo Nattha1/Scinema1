@@ -1,0 +1,25 @@
+name: Convert Database to JSON
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  convert-database-to-json:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.0'
+
+    - name: Install PDO extension
+      run: sudo apt-get install -y php8.0-mysql
+
+    - name: Run PHP script
+      run: php convert_database_to_json.php
