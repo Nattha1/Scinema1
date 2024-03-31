@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # แก้ชื่อ branch ตามที่คุณใช้
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install  # หรือคำสั่งที่ใช้ในการติดตั้ง dependencies ของโปรเจกท์ของคุณ
+
+      - name: Build website
+        run: npm run build  # หรือคำสั่งที่ใช้ในการ build เว็บไซต์ของคุณ
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}  # ใช้ Personal Access Token ของคุณ
+          BRANCH: gh-pages
+          FOLDER: build  # หรือโฟลเดอร์ที่มีไฟล์ที่ต้องการให้ GitHub Pages โฮสต์
