@@ -4,7 +4,7 @@ session_start();
 $host = 'localhost';
 $dbname = 'Scinema';
 $username = 'root';
-$password = '';
+$password = '123';
 
 $conn = new mysqli($host, $username, $password, $dbname);
 
