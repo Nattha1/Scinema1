@@ -1,0 +1,26 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4" # เลือกเวอร์ชันของ PHP ที่คุณต้องการติดตั้ง
+          extensions: mbstring, zip # สามารถเพิ่มส่วนขยายเพิ่มเติมได้ตามต้องการ
+
+      - name: Install PHP CodeSniffer
+        run: composer global require "squizlabs/php_codesniffer=*"
+
+      - name: Check PHP syntax
+        run: php -l .
