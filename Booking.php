@@ -467,7 +467,7 @@ if (isset($_SESSION['user_id'])) {
                 <p>Showtime : <?php echo isset($_GET['time']) ? $_GET['time'] : ''; ?></p>
                 <p>Runtime : <?php echo $row_movie_details['Duration']; ?></p>
                 <p>Room : <?php echo $room_name; ?></p>
-                <p>Screen type : <?php echo $type_screen; ?></p> <!-- แสดงประเภทจอ -->
+                <p>Screen type: <?php echo $type_screen; ?></p> <!-- แสดงประเภทจอ -->
                 <?php if (!empty($promotion_name)) : ?>
                     <p>Promotion : <?php echo $promotion_name; ?></p>
                 <?php endif; ?>
